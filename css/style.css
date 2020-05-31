@@ -1,0 +1,41 @@
+html,body {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    color: #f5f5f5;
+}
+h3 {
+    color: burlywood;
+}
+
+h1,h3 {
+    text-align: center;
+}
+
+header {
+    background-color: burlywood;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 100px;
+}
+nav a {
+    text-decoration: none;
+    color: #f5f5f5;
+    font-size: large;
+}
+
+#imagesSection {
+    width: 1000px;
+    margin: 0 auto;
+    top: 0;
+}
+.photos {
+    display: inline-block;
+    border: 10px solid burlywood;
+    margin: 10px;
+    width: 250px;
+    height: 200px;
+}
