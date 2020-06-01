@@ -21,9 +21,11 @@ var productsNames = ['bag',
     'water-can',
     'wine-glass'
 ];
-
+var arr1 = [];
+var arr2 = [];
+var clicks1 = [];
+var views1 = [];
 var totalClicks = 0;
-
 var imagesSection = document.getElementById('imagesSection');
 var leftImage = document.getElementById('leftImage');
 var medelImage = document.getElementById('medelImage');
@@ -51,28 +53,34 @@ function renderImages() {
     leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+
     console.log(leftProduct, medelProduct, rightProduct);
 
-    if (leftProduct === medelProduct || leftProduct === rightProduct ||medelProduct === rightProduct) {
-        
-        renderImages();
-    }
-   
-
+    // if (leftProduct === medelProduct || leftProduct === rightProduct || medelProduct === rightProduct) {
+    //     renderImages();
+    //     // uniqImges();
+    // }
+    // console.log(leftProduct, medelProduct, rightProduct);
+    // arr1 = [leftProduct, medelProduct, rightProduct];
+    // console.log(leftProduct, medelProduct, rightProduct);
+    // compareImages();
+// console.log(arr1);
+uniqImges();
+    // console.log(compareImages());
     if (leftProduct.productName === 'sweep') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath1;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
         leftProduct.view++;
-        console.log(leftProduct.productName);
+        // console.log(leftProduct.productName);
 
     } else if (leftProduct.productName === 'usb') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath2;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
         leftProduct.view++;
-        console.log(leftProduct.productName);
-    
+        // console.log(leftProduct.productName);
+
     } else {
 
         leftImage.src = leftProduct.productImgPath;
@@ -86,14 +94,14 @@ function renderImages() {
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
         medelProduct.view++;
-        console.log(medelProduct.productName);
+        // console.log(medelProduct.productName);
 
     } else if (medelProduct.productName === 'usb') {
         medelImage.src = 'images/' + medelProduct.productName + productImgPath2;
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
         medelProduct.view++;
-        console.log(medelProduct.productName);
+        // console.log(medelProduct.productName);
     }
     else {
         medelImage.src = medelProduct.productImgPath;
@@ -107,14 +115,14 @@ function renderImages() {
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
         rightProduct.view++;
-        console.log(rightProduct.productName);
+        // console.log(rightProduct.productName);
 
     } else if (rightProduct.productName === 'usb') {
         rightImage.src = 'images/' + rightProduct.productName + productImgPath2;
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
         rightProduct.view++;
-        console.log(rightProduct.productName);
+        // console.log(rightProduct.productName);
     }
     else {
         rightImage.src = rightProduct.productImgPath;
@@ -126,7 +134,6 @@ function renderImages() {
 renderImages();
 
 imagesSection.addEventListener('click', handleClick)
-
 function handleClick(event) {
     if (totalClicks < 25) {
         if (event.target.id !== 'imagesSection') {
@@ -141,8 +148,20 @@ function handleClick(event) {
         if (event.target.id === 'rightImage') {
             rightProduct.clicks++;
         }
+        // compareImages();
+        // uniqImges();
         renderImages();
     } else {
+       
+        for (var i = 0; i < productsNames.length; i++) {
+            var cli = Pruducts.all[i].clicks;
+            clicks1.push(cli);
+            var vie = Pruducts.all[i].view
+            views1.push(vie);
+        }
+        // uniqImges();
+        // compareImages();
+        renderChart();
         cancelHandelClick();
         renderResult();
     }
@@ -166,4 +185,67 @@ function renderResult() {
 
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function compareImages(){
+// var arr2 = [];
+   for(var i=0; i<arr1.length; i++){
+       if(arr1[i] === arr1[i]){
+            arr1.shift();
+            arr1.unshift(Pruducts.all[randomNumber(0, Pruducts.all.length - 1)]);
+            // arr2[i].push(medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)]);
+            // arr2[i].push(rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)]);
+       }
+       else{
+           renderImages();
+       }
+
+}
+arr1 = [leftProduct, medelProduct, rightProduct];
+}
+
+function uniqImges(){
+    // for(var i=0; i<arr1.length; i++){
+        if(leftProduct === medelProduct || leftProduct === rightProduct || medelProduct === rightProduct){
+            renderImages();
+        }
+    // }
+
+    compareImages();
+}
+// console.log(compareImages());
+
+function renderChart() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: productsNames,
+            datasets: [{
+                label: '# of Votes clicks',
+                data: clicks1,
+                backgroundColor: 'green',
+                borderColor: 'black',
+                borderWidth: 3,
+            },
+            {
+                label: '# of views',
+                data: views1,
+                backgroundColor: 'red',
+                borderColor: 'blue',
+                borderWidth: 3,
+            }]
+        },
+
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
 }
