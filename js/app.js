@@ -53,42 +53,24 @@ function renderImages() {
     rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     console.log(leftProduct, medelProduct, rightProduct);
 
-    if (leftProduct.productName === medelProduct.productName && medelProduct.productName === rightProduct.productName) {
-        leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        console.log(leftProduct, medelProduct, rightProduct);
-
-    } else if (leftProduct.productName === medelProduct.productName) {
-        leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        // medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        // rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        console.log(leftProduct, medelProduct, rightProduct);
-
-    } else if (leftProduct.productName === rightProduct.productName) {
-        // leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        // medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        console.log(leftProduct, medelProduct, rightProduct);
-
-    } else if (rightProduct.productName === medelProduct.productName) {
-        // leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        // rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
-        console.log(leftProduct, medelProduct, rightProduct);
+    if (leftProduct === medelProduct || leftProduct === rightProduct ||medelProduct === rightProduct) {
+        
+        renderImages();
     }
-
+   
 
     if (leftProduct.productName === 'sweep') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath1;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
+        leftProduct.view++;
         console.log(leftProduct.productName);
 
     } else if (leftProduct.productName === 'usb') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath2;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
+        leftProduct.view++;
         console.log(leftProduct.productName);
     
     } else {
@@ -96,47 +78,51 @@ function renderImages() {
         leftImage.src = leftProduct.productImgPath;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
+        leftProduct.view++;
     }
 
     if (medelProduct.productName === 'sweep') {
         medelImage.src = 'images/' + medelProduct.productName + productImgPath1;
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
+        medelProduct.view++;
         console.log(medelProduct.productName);
 
     } else if (medelProduct.productName === 'usb') {
         medelImage.src = 'images/' + medelProduct.productName + productImgPath2;
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
+        medelProduct.view++;
         console.log(medelProduct.productName);
     }
     else {
         medelImage.src = medelProduct.productImgPath;
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
+        medelProduct.view++;
     }
 
     if (rightProduct.productName === 'sweep') {
         rightImage.src = 'images/' + rightProduct.productName + productImgPath1;
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
+        rightProduct.view++;
         console.log(rightProduct.productName);
 
     } else if (rightProduct.productName === 'usb') {
         rightImage.src = 'images/' + rightProduct.productName + productImgPath2;
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
+        rightProduct.view++;
         console.log(rightProduct.productName);
     }
     else {
         rightImage.src = rightProduct.productImgPath;
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
+        rightProduct.view++;
     }
-
-
 }
-
 renderImages();
 
 imagesSection.addEventListener('click', handleClick)
@@ -157,12 +143,10 @@ function handleClick(event) {
         }
         renderImages();
     } else {
+        cancelHandelClick();
         renderResult();
     }
 }
-
-// renderResult();
-cancelHandelClick();
 
 function cancelHandelClick() {
     if (totalClicks == 25) {
@@ -170,14 +154,13 @@ function cancelHandelClick() {
     }
 }
 
-
 function renderResult() {
     var ul1 = document.getElementById('sumry');
 
     for (var i = 0; i < Pruducts.all.length; i++) {
         var li1 = document.createElement('li');
         ul1.appendChild(li1);
-        li1.textContent = `${Pruducts.all[i].productName} has ${Pruducts.all[i].clicks}`;
+        li1.textContent = `${Pruducts.all[i].productName} has clicked ${Pruducts.all[i].clicks} Times and viewed ${Pruducts.all[i].view} Times`;
     }
 }
 
