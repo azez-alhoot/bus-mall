@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var productsNames = ['bag',
     'banana',
@@ -48,25 +48,30 @@ for (var i = 0; i < productsNames.length; i++) {
 var productImgPath1 = '.png';
 var productImgPath2 = '.gif';
 
+
 var leftProduct, medelProduct, rightProduct;
-function renderImages() {
+function generateImages() {
+
     leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
 
-    console.log(leftProduct, medelProduct, rightProduct);
+    while (leftProduct === medelProduct || leftProduct === rightProduct || medelProduct === rightProduct) {
+        leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+        medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+        rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+    }
 
-    // if (leftProduct === medelProduct || leftProduct === rightProduct || medelProduct === rightProduct) {
-    //     renderImages();
-    //     // uniqImges();
-    // }
-    // console.log(leftProduct, medelProduct, rightProduct);
-    // arr1 = [leftProduct, medelProduct, rightProduct];
-    // console.log(leftProduct, medelProduct, rightProduct);
-    // compareImages();
-// console.log(arr1);
-uniqImges();
-    // console.log(compareImages());
+    arr1 = [leftProduct, medelProduct, rightProduct];
+    console.log(arr1);
+
+}
+
+
+function renderImages() {
+
+    generateImages();
+
     if (leftProduct.productName === 'sweep') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath1;
         leftImage.alt = leftProduct.productName;
@@ -133,7 +138,7 @@ uniqImges();
 }
 renderImages();
 
-imagesSection.addEventListener('click', handleClick)
+imagesSection.addEventListener('click', handleClick);
 function handleClick(event) {
     if (totalClicks < 25) {
         if (event.target.id !== 'imagesSection') {
@@ -149,18 +154,17 @@ function handleClick(event) {
             rightProduct.clicks++;
         }
         // compareImages();
-        // uniqImges();
+        
         renderImages();
+        setObj();
     } else {
-       
+
         for (var i = 0; i < productsNames.length; i++) {
             var cli = Pruducts.all[i].clicks;
             clicks1.push(cli);
             var vie = Pruducts.all[i].view
             views1.push(vie);
         }
-        // uniqImges();
-        // compareImages();
         renderChart();
         cancelHandelClick();
         renderResult();
@@ -187,33 +191,6 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function compareImages(){
-// var arr2 = [];
-   for(var i=0; i<arr1.length; i++){
-       if(arr1[i] === arr1[i]){
-            arr1.shift();
-            arr1.unshift(Pruducts.all[randomNumber(0, Pruducts.all.length - 1)]);
-            // arr2[i].push(medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)]);
-            // arr2[i].push(rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)]);
-       }
-       else{
-           renderImages();
-       }
-
-}
-arr1 = [leftProduct, medelProduct, rightProduct];
-}
-
-function uniqImges(){
-    // for(var i=0; i<arr1.length; i++){
-        if(leftProduct === medelProduct || leftProduct === rightProduct || medelProduct === rightProduct){
-            renderImages();
-        }
-    // }
-
-    compareImages();
-}
-// console.log(compareImages());
 
 function renderChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -249,3 +226,17 @@ function renderChart() {
     });
 
 }
+
+
+function setObj(){
+    var setProducts = JSON.stringify(Pruducts.all);
+    localStorage.setItem('prduct',setProducts);
+}
+
+
+function getObj(){
+    var getProducts = localStorage.getItem('prduct');
+    Pruducts.all = JSON.parse(getProducts);
+}
+
+getObj();
