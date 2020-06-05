@@ -1,5 +1,5 @@
 'use strict';
-
+// Array contain the pictures
 var productsNames = ['bag',
     'banana',
     'bathroom',
@@ -21,18 +21,20 @@ var productsNames = ['bag',
     'water-can',
     'wine-glass'
 ];
-var arr1 = [];
-var arr2 = [];
+//Array contain clicks of the chart
 var clicks1 = [];
+//Array contain views of the chart
 var views1 = [];
+// Total clicks on on the pictures
 var totalClicks = 0;
+//Git the elemants byId form Html File 
 var imagesSection = document.getElementById('imagesSection');
 var leftImage = document.getElementById('leftImage');
 var medelImage = document.getElementById('medelImage');
 var rightImage = document.getElementById('rightImage');
-
+// Array of Objects
 Pruducts.all = [];
-
+//Constructor to the Prducts 
 function Pruducts(name) {
     this.productName = name;
     this.productImgPath = `images/${name}.jpg`;
@@ -40,51 +42,80 @@ function Pruducts(name) {
     this.clicks = 0;
     this.view = 0;
 }
-
+//Create Objects from the constructor
 for (var i = 0; i < productsNames.length; i++) {
     new Pruducts(productsNames[i]);
 }
-
+//Path of pectures
 var productImgPath1 = '.png';
 var productImgPath2 = '.gif';
 
-
+// Array to Stor first itiration
+var firstProducts = [];
+//Vareabils to store the products
 var leftProduct, medelProduct, rightProduct;
+//Function to git the images and make sure they are not same in each prduct
 function generateImages() {
-
+    
+    console.log(firstProducts);
     leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
 
-    while (leftProduct === medelProduct || leftProduct === rightProduct || medelProduct === rightProduct) {
+    while (leftProduct === rightProduct || leftProduct === medelProduct || rightProduct === medelProduct) {
+
         leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
         medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
         rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
     }
 
-    arr1 = [leftProduct, medelProduct, rightProduct];
-    console.log(arr1);
+    comparImagies();
+}
+// function to make new products in each iteration
+function comparImagies() {
 
+    while (leftProduct === medelProduct || leftProduct === rightProduct || firstProducts.includes(leftProduct.productName)) {
+
+        leftProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+    }
+    
+    while (rightProduct === medelProduct || rightProduct === leftProduct || firstProducts.includes(rightProduct.productName)) {
+        rightProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+    }
+
+    while (medelProduct === leftProduct || medelProduct === rightProduct || firstProducts.includes(medelProduct.productName)) {
+        medelProduct = Pruducts.all[randomNumber(0, Pruducts.all.length - 1)];
+    }
+
+    firstProducts.push(leftProduct.productName);
+    firstProducts.push(medelProduct.productName);
+    firstProducts.push(rightProduct.productName);
+    
+    console.log(firstProducts);
+    while (firstProducts.length > 3) {
+        firstProducts.shift();
+    }
+    console.log(firstProducts);
 }
 
-
+// function to render the emages
 function renderImages() {
 
     generateImages();
+
+    //If statments to change the path of the pectures if there is need
 
     if (leftProduct.productName === 'sweep') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath1;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
         leftProduct.view++;
-        // console.log(leftProduct.productName);
 
     } else if (leftProduct.productName === 'usb') {
         leftImage.src = 'images/' + leftProduct.productName + productImgPath2;
         leftImage.alt = leftProduct.productName;
         leftImage.title = leftProduct.productName;
         leftProduct.view++;
-        // console.log(leftProduct.productName);
 
     } else {
 
@@ -99,14 +130,12 @@ function renderImages() {
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
         medelProduct.view++;
-        // console.log(medelProduct.productName);
 
     } else if (medelProduct.productName === 'usb') {
         medelImage.src = 'images/' + medelProduct.productName + productImgPath2;
         medelImage.alt = medelProduct.productName;
         medelImage.title = medelProduct.productName;
         medelProduct.view++;
-        // console.log(medelProduct.productName);
     }
     else {
         medelImage.src = medelProduct.productImgPath;
@@ -120,14 +149,13 @@ function renderImages() {
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
         rightProduct.view++;
-        // console.log(rightProduct.productName);
 
     } else if (rightProduct.productName === 'usb') {
         rightImage.src = 'images/' + rightProduct.productName + productImgPath2;
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
         rightProduct.view++;
-        // console.log(rightProduct.productName);
+
     }
     else {
         rightImage.src = rightProduct.productImgPath;
@@ -138,6 +166,7 @@ function renderImages() {
 }
 renderImages();
 
+//Add event listener to render the images when a user click on the images and claculate the number of clicks and views  
 imagesSection.addEventListener('click', handleClick);
 function handleClick(event) {
     if (totalClicks < 25) {
@@ -153,8 +182,6 @@ function handleClick(event) {
         if (event.target.id === 'rightImage') {
             rightProduct.clicks++;
         }
-        // compareImages();
-        
         renderImages();
         setObj();
     } else {
@@ -170,13 +197,13 @@ function handleClick(event) {
         renderResult();
     }
 }
-
+//Helper function to stop the clicks after 25 clicks
 function cancelHandelClick() {
     if (totalClicks == 25) {
         imagesSection.removeEventListener('click', handleClick);
     }
 }
-
+//Function to render the result as a list aftr 25 clicks
 function renderResult() {
     var ul1 = document.getElementById('sumry');
 
@@ -186,12 +213,12 @@ function renderResult() {
         li1.textContent = `${Pruducts.all[i].productName} has clicked ${Pruducts.all[i].clicks} Times and viewed ${Pruducts.all[i].view} Times`;
     }
 }
-
+//Helper function to calculate random numbers
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
+//Function to render the chart that show the result of prducts
 function renderChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -227,14 +254,14 @@ function renderChart() {
 
 }
 
-
-function setObj(){
+// function to stor the objets in the LocalStorage
+function setObj() {
     var setProducts = JSON.stringify(Pruducts.all);
-    localStorage.setItem('prduct',setProducts);
+    localStorage.setItem('prduct', setProducts);
 }
 
-
-function getObj(){
+// function to retrive the objects from the LocalStorage
+function getObj() {
     var getProducts = localStorage.getItem('prduct');
     Pruducts.all = JSON.parse(getProducts);
 }
