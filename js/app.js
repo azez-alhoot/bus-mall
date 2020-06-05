@@ -1,4 +1,5 @@
 'use strict';
+
 // Array contain the pictures
 var productsNames = ['bag',
     'banana',
@@ -21,19 +22,25 @@ var productsNames = ['bag',
     'water-can',
     'wine-glass'
 ];
+
 //Array contain clicks of the chart
 var clicks1 = [];
+
 //Array contain views of the chart
 var views1 = [];
+
 // Total clicks on on the pictures
 var totalClicks = 0;
+
 //Git the elemants byId form Html File 
 var imagesSection = document.getElementById('imagesSection');
 var leftImage = document.getElementById('leftImage');
 var medelImage = document.getElementById('medelImage');
 var rightImage = document.getElementById('rightImage');
+
 // Array of Objects
 Pruducts.all = [];
+
 //Constructor to the Prducts 
 function Pruducts(name) {
     this.productName = name;
@@ -52,8 +59,10 @@ var productImgPath2 = '.gif';
 
 // Array to Stor first itiration
 var firstProducts = [];
+
 //Vareabils to store the products
 var leftProduct, medelProduct, rightProduct;
+
 //Function to git the images and make sure they are not same in each prduct
 function generateImages() {
     
@@ -71,6 +80,7 @@ function generateImages() {
 
     comparImagies();
 }
+
 // function to make new products in each iteration
 function comparImagies() {
 
@@ -155,7 +165,6 @@ function renderImages() {
         rightImage.alt = rightProduct.productName;
         rightImage.title = rightProduct.productName;
         rightProduct.view++;
-
     }
     else {
         rightImage.src = rightProduct.productImgPath;
@@ -197,12 +206,14 @@ function handleClick(event) {
         renderResult();
     }
 }
+
 //Helper function to stop the clicks after 25 clicks
 function cancelHandelClick() {
     if (totalClicks == 25) {
         imagesSection.removeEventListener('click', handleClick);
     }
 }
+
 //Function to render the result as a list aftr 25 clicks
 function renderResult() {
     var ul1 = document.getElementById('sumry');
@@ -213,6 +224,7 @@ function renderResult() {
         li1.textContent = `${Pruducts.all[i].productName} has clicked ${Pruducts.all[i].clicks} Times and viewed ${Pruducts.all[i].view} Times`;
     }
 }
+
 //Helper function to calculate random numbers
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
