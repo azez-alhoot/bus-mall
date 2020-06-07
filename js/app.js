@@ -178,6 +178,7 @@ renderImages();
 //Add event listener to render the images when a user click on the images and claculate the number of clicks and views  
 imagesSection.addEventListener('click', handleClick);
 function handleClick(event) {
+    
     if (totalClicks < 25) {
         if (event.target.id !== 'imagesSection') {
             totalClicks++;
@@ -275,7 +276,8 @@ function setObj() {
 // function to retrive the objects from the LocalStorage
 function getObj() {
     var getProducts = localStorage.getItem('prduct');
+    if(getProducts){
     Pruducts.all = JSON.parse(getProducts);
+    }
 }
-
 getObj();
